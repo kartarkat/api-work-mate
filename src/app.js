@@ -108,15 +108,15 @@ app.get('/employees/:id', (req, res) => {
   }
 });
 
-app.post('/employees/update-manager', (req, res) => {
+app.post('/employees/update', (req, res) => {
   // Extract data from the request body
   const { employeeId, newManagerId } = req.body;
 
   // Find the employee by ID
-  const employee = employees.find((emp) => emp.id === employeeId);
+  const employee = employees.find((emp) => parseInt(emp.id, 10) === employeeId);
 
   // Find the new manager by ID
-  const newManager = employees.find((emp) => emp.id === newManagerId);
+  const newManager = employees.find((emp) => parseInt(emp.id, 10) === newManagerId);
 
   // Check if both employee and new manager exist
   if (!employee || !newManager) {
