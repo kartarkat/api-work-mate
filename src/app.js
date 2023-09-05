@@ -123,8 +123,11 @@ app.post('/employees/update', (req, res) => {
     return res.status(404).json({ error: 'Employee or new manager not found' });
   }
 
+  if (parseInt(employee.manager, 10) !== newManagerId) {
+    employee.manager = newManagerId;
+  }
+
   // Update the employee's manager
-  employee.manager = newManagerId;
 
   // Send a success response
   // res.json({ message: 'Employee manager updated successfully', employees });
