@@ -99,13 +99,36 @@ app.get('/employees', (req, res) => {
 
 app.get('/employees/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const recipe = employees.find((rec) => rec.id === id);
+  const employee = employees.find((rec) => rec.id === id);
 
-  if (recipe) {
-    res.json(recipe);
+  if (employee) {
+    res.json(employee);
   } else {
     res.status(404).json({ error: 'recipe not found' });
   }
+});
+
+app.post('/employees/update-manager', (req, res) => {
+  // Extract data from the request body
+  const { employeeId, newManagerId } = req.body;
+
+  // Find the employee by ID
+  const employee = employees.find((emp) => emp.id === employeeId);
+
+  // Find the new manager by ID
+  const newManager = employees.find((emp) => emp.id === newManagerId);
+
+  // Check if both employee and new manager exist
+  if (!employee || !newManager) {
+    return res.status(404).json({ error: 'Employee or new manager not found' });
+  }
+
+  // Update the employee's manager
+  employee.manager = newManagerId;
+
+  // Send a success response
+  // res.json({ message: 'Employee manager updated successfully', employees });
+  res.json(employees);
 });
 
 app.use('/api/v1', api);
